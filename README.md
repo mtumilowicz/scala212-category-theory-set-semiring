@@ -89,3 +89,4 @@ such that:
       case Right((x, z)) => (x, Right(z))
     }
     ```
+* tests: `AssociativityTest`, `DistributivePropertyTest`
