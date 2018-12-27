@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/mtumilowicz/scala212-category-theory-set-semiring.svg?branch=master)](https://travis-ci.com/mtumilowicz/scala212-category-theory-set-semiring)
+
 # scala212-category-theory-set-semiring
 _Reference_: https://bartoszmilewski.com/2015/01/13/simple-algebraic-data-types/  
 _Reference_: https://github.com/mtumilowicz/java11-category-theory-set-coproduct  
