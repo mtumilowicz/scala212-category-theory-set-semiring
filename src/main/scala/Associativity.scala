@@ -8,18 +8,18 @@ class Associativity {
   def productTransformation_inv[X, Y, Z](abc: (X, (Y, Z))): ((X, Y), Z) = ((abc._1, abc._2._1), abc._2._2)
 
   def coproductTransformation[X, Y, Z](either: Either[Either[X, Y], Z]): Either[X, Either[Y, Z]] = either match {
-    case Left(y) => y match {
-      case Left(inner) => Left(inner)
-      case Right(inner) => Right(Left(inner))
+    case Left(inner) => inner match {
+      case Left(x) => Left(x)
+      case Right(y) => Right(Left(y))
     }
-    case Right(r) => Right(Right(r))
+    case Right(z) => Right(Right(z))
   }
 
   def coproductTransformation_inv[X, Y, Z](either: Either[X, Either[Y, Z]]): Either[Either[X, Y], Z] = either match {
-    case Left(y) => Left(Left(y))
-    case Right(r) => r match {
-      case Left(inner) => Left(Right(inner))
-      case Right(inner) => Right(inner)
+    case Left(x) => Left(Left(x))
+    case Right(inner) => inner match {
+      case Left(y) => Left(Right(y))
+      case Right(z) => Right(z)
     }
   }
 }
