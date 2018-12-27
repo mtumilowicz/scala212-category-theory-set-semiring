@@ -1,20 +1,20 @@
-import org.scalatest.FunSuite
+import org.scalatest._
 
 /**
   * Created by mtumilowicz on 2018-12-27.
   */
-class DistributivePropertyTest extends FunSuite {
+class DistributivePropertyTest extends FunSuite with Matchers {
 
   def distributive = new DistributiveProperty
   
   test("testSumToProd") {
-    assert(distributive.sumToProd(Left((1, "String"))) == (1, Left("String")))
-    assert(distributive.sumToProd(Right((1, "String"))) == (1, Right("String")))
+    distributive.sumToProd(Left((1, "String"))) should be (1, Left("String"))
+    distributive.sumToProd(Right((1, "String"))) should be (1, Right("String"))
   }
 
   test("testProdToSum") {
-    assert(distributive.prodToSum((1, Left("String"))) == Left(1, "String"))
-    assert(distributive.prodToSum((1, Right("String"))) == Right(1, "String"))
+    distributive.prodToSum((1, Left("String"))) should be (Left(1, "String"))
+    distributive.prodToSum((1, Right("String"))) should be (Right(1, "String"))
   }
 
 }
