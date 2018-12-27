@@ -23,7 +23,7 @@ such that:
     * `0 * a = a * 0 = 0`
 
 # Set category is semiring with product and coproduct
-* product as multiplication
+* product as multiplication: `a * b := (a, b)`
     * we have isomorphism between `((a, b), c)` and `(a, (b, c))`
         ```
         alpha :: ((a, b), c) -> (a, (b, c))
@@ -34,7 +34,7 @@ such that:
         ```
     * identity element (`1`) is singleton `()` - 
     pairing element with singleton does not carry additional
-    information than element
+    information than element itself
         ```
         rho :: (a, ()) -> a
         rho (x, ()) = x
@@ -47,7 +47,45 @@ such that:
         swap :: (a, b) -> (b, a)
         swap (x, y) = (y, x)
         ```
-* coproduct as addition
-
+* coproduct as addition: `a + b := Either(a, b)`
+    * same methodology like with product
+    * identity element (`0`) is `Void` (the uninhabited type - 
+    empty set)
+        * `Either a Void` is isomorphic to `a` - there is no way 
+        of constructing `Right`
 
 # project description
+* `Associativity`
+    ```
+    def productTransformation[X, Y, Z](abc: ((X, Y), Z)): (X, (Y, Z)) = (abc._1._1, (abc._1._2, abc._2))
+    
+      def productTransformation_inv[X, Y, Z](abc: (X, (Y, Z))): ((X, Y), Z) = ((abc._1, abc._2._1), abc._2._2)
+    
+      def coproductTransformation[X, Y, Z](either: Either[Either[X, Y], Z]): Either[X, Either[Y, Z]] = either match {
+        case Left(inner) => inner match {
+          case Left(x) => Left(x)
+          case Right(y) => Right(Left(y))
+        }
+        case Right(z) => Right(Right(z))
+      }
+    
+      def coproductTransformation_inv[X, Y, Z](either: Either[X, Either[Y, Z]]): Either[Either[X, Y], Z] = either match {
+        case Left(x) => Left(Left(x))
+        case Right(inner) => inner match {
+          case Left(y) => Left(Right(y))
+          case Right(z) => Right(z)
+        }
+      }
+    ```
+* `DistributiveProperty`
+    ```
+    def prodToSum[X, Y, Z](prod: (X, Either[Y, Z])): Either[(X, Y), (X, Z)] = prod match {
+      case (x, Left(y)) => Left((x, y))
+      case (a, Right(z)) => Right(a, z)
+    }
+    
+    def sumToProd[X, Y, Z](sum: Either[(X, Y), (X, Z)]): (X, Either[Y, Z]) = sum match {
+      case Left((x, y)) => (x, Left(y))
+      case Right((x, z)) => (x, Right(z))
+    }
+    ```
