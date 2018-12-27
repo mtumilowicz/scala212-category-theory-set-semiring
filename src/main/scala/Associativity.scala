@@ -3,9 +3,17 @@
   */
 class Associativity {
 
-  def productTransformation[X, Y, Z](abc: ((X, Y), Z)): (X, (Y, Z)) = (abc._1._1, (abc._1._2, abc._2))
+  def productTransformation[X, Y, Z](abc: ((X, Y), Z)): (X, (Y, Z)) = {
+    val ((a, b), c) = abc
+    
+    (a, (b, c))
+  }
 
-  def productTransformation_inv[X, Y, Z](abc: (X, (Y, Z))): ((X, Y), Z) = ((abc._1, abc._2._1), abc._2._2)
+  def productTransformation_inv[X, Y, Z](abc: (X, (Y, Z))): ((X, Y), Z) = {
+    val (a, (b, c)) = abc
+    
+    ((a, b), c)
+  }
 
   def coproductTransformation[X, Y, Z](either: Either[Either[X, Y], Z]): Either[X, Either[Y, Z]] = either match {
     case Left(inner) => inner match {
